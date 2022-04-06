@@ -1,0 +1,496 @@
+---
+title: "Tercera sesión"
+output:
+  html_document:
+    df_print: paged
+  pdf_document: default
+---
+
+<div align="right">**Elaborado por Chiara Zamora** </div>
+<div align="right">PCPOCZAM@upc.edu.pe </div>
+<a id='home'></a>
+
+Veremos:
+
+**Introducción a R Studio**
+
+1. [R como calculadora](### **1. R como calculadora**)
+
+2. [Directorio de trabajo](### **2. Directorio de trabajo**)
+
+3. [Tipos y creación de datos](### **3. Tipos y creación de datos**)
+
+4. [Introducción a la importación de datos](### **4. Introducción a la importación de datos**)
+
+
+### **1. R como calculadora**
+
+* Suma, resta, multiplicación y división
+
+```{r}
+a = 10
+
+a * 2
+```
+
+```{r}
+b = 81
+```
+
+**Recordatorio**: para dar nombre a un objeto, podemos usar tanto “=” como “<–”
+
+* Otras operaciones
+
+```{r}
+9^2
+```
+
+```{r}
+b = 81
+
+sqrt(b)
+```
+
+* Buscar ayuda en R
+
+```{r}
+#?sqrt
+
+#help("sqrt")
+```
+
+### **2. Directorio de trabajo**
+
+* El comando getwd muestra el directorio de trabajo actual.
+
+```{r}
+getwd()
+```
+
+
+* El comando setwd sirve para señalar el directorio de trabajo. Entre los parentesis tengo que señalar el directorio de trabajo.
+```{r}
+#setwd()
+```
+
+
+### **3. Tipos y creación de datos**
+
+#### **Vector**
+
+Aquí hay un vector que contiene tres valores numéricos 2, 3 y 5.
+```{r}
+c(2, 3, 5) 
+```
+Y aquí hay un vector de valores lógicos.
+```{r}
+c(TRUE, FALSE, TRUE, FALSE, FALSE)
+```
+
+Un vector puede contener cadenas de caracteres.
+```{r}
+c("aa", "bb", "cc", "dd", "ee") 
+```
+
+El número de miembros en un vector está dado por la función de *length*.
+```{r}
+length(c("aa", "bb", "cc", "dd", "ee")) 
+```
+
+* **Combinando vectores**
+
+Los vectores se pueden combinar a través de la función c. Por ejemplo, los siguientes dos vectores n y s se combinan en un nuevo vector que contiene elementos de ambos vectores.
+
+```{r}
+n = c(2, 3, 5) 
+s = c("aa", "bb", "cc", "dd", "ee") 
+c(n, s) 
+```
+
+* **Aritmética vectorial**
+
+Las operaciones aritméticas de vectores se realizan miembro por miembro.
+
+Por ejemplo, supongamos que tenemos dos vectores a y b.
+```{r}
+a = c(1, 3, 5, 7) 
+b = c(1, 2, 4, 8)
+```
+
+Entonces, si multiplicamos a por 5, obtendríamos un vector con cada uno de sus miembros multiplicado por 5.
+```{r}
+5 * a 
+```
+
+Y si sumamos a y b, la suma sería un vector cuyos miembros son la suma de los miembros correspondientes de a y b.
+```{r}
+a+b
+```
+
+De manera similar, para la resta, la multiplicación y la división, obtenemos nuevos vectores a través de operaciones entre miembros.
+```{r}
+a - b 
+```
+
+```{r}
+a * b 
+```
+
+```{r}
+a / b
+```
+
+- Regla de reciclaje
+
+Si dos vectores tienen una longitud diferente, el más corto se reciclará para que coincida con el vector más largo. Por ejemplo, los siguientes vectores u y v tienen diferentes longitudes y su suma se calcula reciclando los valores del vector u más corto.
+```{r}
+u = c(10, 20, 30) 
+v = c(1, 2, 3, 4, 5, 6, 7, 8, 9) 
+u + v 
+```
+
+* **Índice vectorial**
+
+Recuperamos valores en un vector declarando un índice dentro de un solo operador de corchete cuadrado "[]".
+
+Por ejemplo, a continuación se muestra cómo recuperar un miembro de vector. Dado que el índice del vector está basado en 1, usamos la posición de índice 3 para recuperar el tercer miembro.
+```{r}
+s[3]
+```
+
+A diferencia de otros lenguajes de programación, el operador de corchetes devuelve más que solo miembros individuales. De hecho, el resultado del operador de corchetes es otro vector, y s[3] es una rebanada de vector que contiene un solo miembro "cc".
+
+- Índice negativo
+
+Si el índice es negativo, eliminaría al miembro cuya posición tiene el mismo valor absoluto que el índice negativo. Por ejemplo, lo siguiente crea un sector vectorial con el tercer miembro eliminado.
+```{r}
+s[-3]
+```
+
+- Índice fuera de rango
+
+Si un índice está fuera de rango, se informará un valor faltante mediante el símbolo NA.
+```{r}
+s[10] 
+```
+
+* **Vector de índice numérico**
+
+Se puede dividir un nuevo vector a partir de un vector dado con un vector de índice numérico, que consta de las posiciones de los miembros del vector original que se va a recuperar.
+
+Aquí se muestra cómo recuperar un segmento de vector que contiene el segundo y el tercer miembro de un vector dado.
+```{r}
+s[c(2, 3)] 
+```
+
+- Índices duplicados
+
+El vector de índice permite valores duplicados. Por lo tanto, lo siguiente recupera un miembro dos veces en una operación.
+```{r}
+s[c(2, 3, 3)] 
+```
+
+- Índices fuera de servicio
+
+El vector índice puede incluso estar desordenado. Aquí hay una rebanada de vector con el orden de los miembros primero y segundo invertido.
+```{r}
+s[c(2, 1, 3)]
+```
+
+- Índice de rango
+
+Para producir un segmento de vector entre dos índices, podemos usar el operador de dos puntos ":". Esto puede ser conveniente para situaciones que involucran vectores grandes.
+```{r}
+s[2:4]
+```
+
+* **Índice lógico vectorial**
+
+http://www.r-tutor.com/r-introduction/vector/logical-index-vector
+
+* **Miembros de vectores con nombre**
+
+Podemos asignar nombres a los miembros del vector.
+
+Por ejemplo, la siguiente variable v es un vector de cadena de caracteres con dos miembros.
+
+```{r}
+v = c("María", "Sue")
+```
+
+Ahora nombramos al primer miembro como Primero y al segundo como Último.
+```{r}
+names(v) = c("Primero", "Último")
+```
+
+Entonces podemos recuperar el primer miembro por su nombre.
+
+```{r}
+v["Primero"]
+```
+
+Además, podemos invertir el orden con un vector de índice de cadena de caracteres.
+
+```{r}
+v[c("Último", "Primero")]
+```
+
+#### **Matriz**
+
+El siguiente es un ejemplo de una matriz con 2 filas y 3 columnas.
+
++---------+-----------+-------+
+| 2       | 4         | 3     |
++---------+-----------+-------+
+| 1       | 5         | 7     |
++---------+-----------+-------+
+
+Reproducimos una representación de memoria de la matriz en R con la función de matriz. Los elementos de datos deben ser del mismo tipo básico.
+
+```{r}
+A = matrix( 
+   c(2, 4, 3, 1, 5, 7), # the data elements 
+   nrow=2,              # number of rows 
+   ncol=3,              # number of columns 
+   byrow = TRUE)        # fill matrix by rows 
+ 
+A                      # print the matrix 
+```
+Se puede acceder a un elemento en la m-ésima fila, enésima columna de A mediante la expresión A[m, n].
+```{r}
+A[2, 3] 
+```
+
+
+Toda la m-ésima fila A se puede extraer como A[m, ].
+```{r}
+A[2, ]# la segunda fila
+```
+
+De manera similar, toda la n-ésima columna A se puede extraer como A[,n].
+```{r}
+A[ ,3] # la 3ra columna
+```
+
+También podemos extraer más de una fila o columna a la vez.
+```{r}
+A[ ,c(1,3)] # la 1ra y 3ra columna
+```
+
+Si asignamos nombres a las filas y columnas de la matriz, podemos acceder a los elementos por nombres.
+```{r}
+dimnames(A) = list(
+ c("fila1", "fila2"), # nombres de fila
+ c("col1", "col2", "col3")) # nombres de columna
+ 
+A
+```
+
+```{r}
+A["fila2", "col3"] # elemento en la 2.ª fila, 3.ª columna
+```
+
+* **Construcción de matriz**
+
+Cuando construimos una matriz directamente con elementos de datos, el contenido de la matriz se llena a lo largo de la orientación de la columna de forma predeterminada. Por ejemplo, en el siguiente fragmento de código, el contenido de B se completa a lo largo de las columnas de forma consecutiva.
+```{r}
+B = matrix(
+ c(2, 4, 3, 1, 5, 7),
+ nrow=3,
+ ncol=2)
+ 
+B #B tiene 3 filas y 2 columnas
+```
+
+- Transponer
+
+Construimos la transpuesta de una matriz intercambiando sus columnas y filas con la función t.
+```{r}
+t(B) # transpuesta de B
+```
+
+- Combinando Matrices
+
+Las columnas de dos matrices que tienen el mismo número de filas se pueden combinar en una matriz más grande. Por ejemplo, supongamos que tenemos otra matriz C también con 3 filas.
+```{r}
+C = matrix(
+ c(7, 4, 2),
+ nrow=3,
+ ncol=1)
+ 
+C #C tiene 3 filas
+```
+
+Entonces podemos combinar las columnas de B y C con cbind.
+```{r}
+cbind(B, C)
+```
+
+```{r}
+D = matrix(
+ c(6, 2),
+ nrow=1,
+ ncol=2)
+ 
+D #D tiene 2 columnas
+```
+
+De manera similar, podemos combinar las filas de dos matrices si tienen el mismo número de columnas con la función rbind.
+```{r}
+rbind(B, D)
+```
+#### **Lista**
+
+La siguiente variable x es una lista que contiene copias de tres vectores n, s, b y un valor numérico 3.
+```{r}
+n = c(2, 3, 5) 
+s = c("aa", "bb", "cc", "dd", "ee") 
+b = c(TRUE, FALSE, TRUE, FALSE, FALSE) 
+x = list(n, s, b, 3) 
+```
+
+```{r}
+x
+```
+
+- Segmentación de listas
+
+Recuperamos un segmento de lista con el operador de corchete simple "[]". El siguiente es un segmento que contiene el segundo miembro de x, que es una copia de s.
+```{r}
+x[2]
+```
+
+Con un vector de índice, podemos recuperar un segmento con varios miembros. Aquí una porción que contiene el segundo y cuarto miembros de x.
+```{r}
+x[c(2, 4)] 
+```
+
+- Referencia de miembro
+
+Para hacer referencia a un miembro de la lista directamente, tenemos que usar el operador de doble corchete "[[]]". El siguiente objeto x[[2]] es el segundo miembro de x. En otras palabras, x[[2]] es una copia de s, pero no es una rebanada que contenga s o su copia.
+```{r}
+x[[2]] 
+```
+
+Podemos modificar su contenido directamente.
+
+```{r}
+x[[2]][1] = "ta" 
+
+x[[2]]
+```
+
+#### **Data frame**
+
+La siguiente variable df es un data frame que contiene tres vectores n, s, b.
+```{r}
+n = c(2, 3, 5) 
+s = c("aa", "bb", "cc") 
+b = c(TRUE, FALSE, TRUE) 
+df = data.frame(n, s, b)
+```
+
+- Data frame incoporado
+
+Usamos data.frame incorporados en R para nuestros tutoriales. Por ejemplo, aquí hay un data frame incorporado en R, llamado mtcars.
+```{r}
+mtcars
+```
+
+La línea superior de la tabla, llamada encabezado, contiene los nombres de las columnas. Cada línea horizontal posterior denota una fila de datos, que comienza con el nombre de la fila y luego sigue con los datos reales. Cada miembro de datos de una fila se denomina celda.
+
+Para recuperar datos en una celda, ingresaríamos sus coordenadas de fila y columna en el operador de corchete simple "[]". Las dos coordenadas están separadas por una coma. En otras palabras, las coordenadas comienzan con la posición de la fila, luego siguen una coma y terminan con la posición de la columna. El orden es importante.
+
+Aquí está el valor de celda de la primera fila, segunda columna de mtcars.
+
+```{r}
+mtcars[1, 2]
+```
+
+Además, podemos usar los nombres de fila y columna en lugar de las coordenadas numéricas.
+```{r}
+mtcars["Mazda RX4", "cyl"]
+```
+
+Por último, la función nrow proporciona el número de filas de datos en el data frame.
+```{r}
+nrow(mtcars) # número de filas de datos
+```
+
+Y el número de columnas de un data frame viene dado por la función ncol.
+
+```{r}
+ncol(mtcars) # numero de columnas
+```
+
+Más detalles del conjunto de datos mtcars están disponibles en la documentación de R.
+```{r}
+#help(mtcars)
+```
+
+- Vista previa
+
+En lugar de imprimir todo el data frame, a menudo es deseable obtener una vista previa con la función principal de antemano.
+```{r}
+head(mtcars)
+```
+
+#### Ejercicio
+
+* Cadena de texto
+```{r}
+carreras = c("economia","antropologia","sociologia","ciencia politica")
+```
+
+* Numérico
+```{r}
+estudiantes = c(5,10,7,8) #c signica concatenar
+estudiantes #vector
+```
+
+¿Es el objeto un vector?
+```{r}
+is.vector(carreras)
+```
+
+* Data.frame
+```{r}
+data = data.frame(carreras, estudiantes)
+```
+
+Para visualizar la data...
+```{r}
+View(data)
+```
+
+* Creación de un vector usando **seq**
+```{r}
+orden = seq(1,4) #seq - significa secuencia
+data1 = data.frame(carreras , estudiantes, orden) #incorpó orden a la base de datos
+```
+
+* Creación de un vector usando **rep**
+```{r}
+rep(1 , 5)
+```
+
+```{r}
+rep(carreras , 5) #rep con base de datos
+```
+
+```{r}
+rep(c(1,2),10) #rep con vector
+```
+
+### **4. Introducción a la importación de datos**
+
+```{r}
+#setwd()
+```
+
+```{r}
+library(rio)
+
+estadistica = read.csv("https://docs.google.com/spreadsheets/d/e/2PACX-1vQwMW9pl4IWXj--RlscPtpEiwT40BKjgeZNTWGVx_GfjZEVhiWN32UmDHa8-OnUb8TwNF5uLcf0Ei_O/pub?output=csv")
+```
+
